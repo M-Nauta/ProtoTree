@@ -3,7 +3,7 @@ This repository presents the PyTorch code for Neural Prototype Trees (ProtoTrees
 
 A ProtoTree is an intrinsically interpretable deep learning method for fine-grained image recognition. It includes prototypes in an interpretable decision tree to faithfully visualize the entire model. Each node in our binary tree contains a trainable prototypical part. The presence or absence of this prototype in an image determines the routing through a node. Decision making is therefore similar to human reasoning: Does the bird have a red throat? And an elongated beak? Then it's a hummingbird!
 
-<!-- Corresponding paper on ArXiv: ["Neural Prototype Trees for Interpretable Fine-grained Image Recognition"]() -->
+Corresponding paper on ArXiv: ["Neural Prototype Trees for Interpretable Fine-grained Image Recognition"](https://arxiv.org/abs/2012.02046)
 
 ![Example of a ProtoTree.](images/prototree_teaser.png "ProtoTree")
 Figure shows an example of a ProtoTree. A ProtoTree is a globally interpretable model faithfully explaining its entire behaviour (left, partially shown) and additionally the reasoning process for a single prediction can be followed (right): the presence of a red chest and black wing, and the absence of a black stripe near the eye, identifies a Scarlet Tanager. 
@@ -46,7 +46,7 @@ A ProtoTree can be trained by running `main_tree.py` with arguments. An example 
 
 Check your `--log_dir` to keep track of the training progress. This directory contains `log_epoch_overview.csv` which prints per epoch the test accuracy, mean training accuracy and the mean loss. File `log_train_epochs_losses.csv` prints the loss value and training accuracy per batch iteration. File `log.txt` logs additional info. 
 
-The resulting visualized prototree (i.e. *global explanation*) is saved as a pdf in your `--log_dir /pruned_and_projected/treevis.pdf`. NOTE: this pdf can get large which is not supported by Adobe Acrobat. Open it with e.g. Google Chrome or Apple Preview. 
+The resulting visualized prototree (i.e. *global explanation*) is saved as a pdf in your `--log_dir /pruned_and_projected/treevis.pdf`. NOTE: this pdf can get large which is not supported by Adobe Acrobat Reader. Open it with e.g. Google Chrome or Apple Preview. 
 
 To train and evaluate an ensemble of ProtoTrees, run `main_ensemble.py` with the same arguments as for `main_tree.py`, but include the `--nr_trees_ensemble` to indicate the number of trees in the ensemble. 
 
