@@ -88,8 +88,7 @@ for k in range(num):
     else:
         if not os.path.isdir(test_save_path + file_name):
             os.makedirs(os.path.join(test_save_path,file_name))
-        img = Image.open(os.path.join(os.path.join(path, 'images'),images[k][0].split(' ')[1]))
-        img.save(os.path.join(os.path.join(test_save_path,file_name),images[k][0].split(' ')[1].split('/')[1]))
+        shutil.copy(path + 'images/' + images[k][0].split(' ')[1], os.path.join(os.path.join(test_save_path,file_name),images[k][0].split(' ')[1].split('/')[1]))
         print('%s' % images[k][0].split(' ')[1].split('/')[1])
 time_end = time.time()
 print('CUB200, %s!' % (time_end - time_start))
