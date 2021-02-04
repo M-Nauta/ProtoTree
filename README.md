@@ -1,5 +1,5 @@
 # ProtoTrees: Neural Prototype Trees for Interpretable Fine-grained Image Recognition
-This repository presents the PyTorch code for Neural Prototype Trees (ProtoTrees in short). 
+This repository presents the PyTorch code for Neural Prototype Trees (ProtoTrees). Check out our [video](https://videos.mysimpleshow.com/qyZYnaTBHv) for a short introduction!
 
 A ProtoTree is an intrinsically interpretable deep learning method for fine-grained image recognition. It includes prototypes in an interpretable decision tree to faithfully visualize the entire model. Each node in our binary tree contains a trainable prototypical part. The presence or absence of this prototype in an image determines the routing through a node. Decision making is therefore similar to human reasoning: Does the bird have a red throat? And an elongated beak? Then it's a hummingbird!
 
