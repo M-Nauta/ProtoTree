@@ -12,7 +12,7 @@ Figure shows an example of a ProtoTree. A ProtoTree is a globally interpretable 
 
 ### General
 * Python 3
-* [PyTorch](https://pytorch.org/get-started/locally/) >= 1.5
+* [PyTorch](https://pytorch.org/get-started/locally/) >= 1.5 and <= 1.7!
 * Optional: CUDA
 
 ### Required Python Packages:
@@ -33,15 +33,16 @@ The folder `preprocess_data` contains python code to download, extract and prepr
 ### Preprocessing CUB
 1. create a folder ./data/CUB_200_2011
 2. download [ResNet50 pretrained on iNaturalist2017](https://drive.google.com/drive/folders/1yHme1iFQy-Lz_11yZJPlNd9bO_YPKlEU) (Filename on Google Drive: `BBN.iNaturalist2017.res50.180epoch.best_model.pth`) and place it in the folder `features/state_dicts`.
-3. run `preprocess_data/download_birds.py`
-4. run `preprocess_data/cub.py` to create training and test sets
+3. from the main ProtoTree folder, run `python preprocess_data/download_birds.py` 
+4. from the main ProtoTree folder, run `python preprocess_data/cub.py` to create training and test sets
 
 ### Preprocessing CARS
 1. create a folder ./data/cars
-2. run `preprocess_data/download_cars.py`
-3. run `preprocess_data/cars.py` to create training and test sets
+2. from the main ProtoTree folder, run `python preprocess_data/download_cars.py`
+3. from the main ProtoTree folder, run `python preprocess_data/cars.py` to create training and test sets
 
 ## Training a ProtoTree
+1. create a folder ./runs
 A ProtoTree can be trained by running `main_tree.py` with arguments. An example for CUB: `main_tree.py --epochs 100 --log_dir ./runs/protoree_cub --dataset CUB-200-2011 --lr 0.001 --lr_block 0.001 --lr_net 1e-5 --num_features 256 --depth 9 --net resnet50_inat --freeze_epochs 30 --milestones 60,70,80,90,100`
 
 Check your `--log_dir` to keep track of the training progress. This directory contains `log_epoch_overview.csv` which prints per epoch the test accuracy, mean training accuracy and the mean loss. File `log_train_epochs_losses.csv` prints the loss value and training accuracy per batch iteration. File `log.txt` logs additional info. 
