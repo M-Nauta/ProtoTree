@@ -54,8 +54,11 @@ def upsample(tree: ProtoTree, project_info: dict, project_loader: DataLoader, fo
                 plt.imsave(fname=os.path.join(dir,'%s_heatmap_original_image.png'%str(decision_node_idx)), arr=overlayed_original_img, vmin=0.0,vmax=1.0)
 
                 # save the highly activated patch
-                masked_similarity_map = np.ones(similarity_map.shape)
-                masked_similarity_map[similarity_map < np.max(similarity_map)] = 0 #mask similarity map such that only the nearest patch z* is visualized
+                masked_similarity_map = np.zeros(similarity_map.shape)
+                prototype_index = prototype_info['patch_ix']
+                W, H = prototype_info['W'], prototype_info['H']
+                assert W == H
+                masked_similarity_map[prototype_index // W, prototype_index % W] = 1 #mask similarity map such that only the nearest patch z* is visualized
                 
                 upsampled_prototype_pattern = cv2.resize(masked_similarity_map,
                                                     dsize=(img_size[1], img_size[0]),
