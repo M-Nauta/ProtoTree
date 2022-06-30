@@ -53,18 +53,10 @@ def freeze(tree: ProtoTree, epoch: int, params_to_freeze: list, params_to_train:
     if args.freeze_epochs>0:
         if epoch == 1:
             log.log_message("\nNetwork frozen")
-            if 'resnet50' in args.net or args.net=='densenet121': #finetune last block and freeze rest
-                for parameter in params_to_freeze:
-                    parameter.requires_grad = False
-            else: #freeze complete network
-                for parameter in tree._net.parameters():
-                    parameter.requires_grad = False
+            for parameter in params_to_freeze:
+                parameter.requires_grad = False
         elif epoch == args.freeze_epochs + 1:
             log.log_message("\nNetwork unfrozen")
-            if 'resnet50' in args.net or args.net=='densenet121':
-                for parameter in params_to_freeze:
-                    parameter.requires_grad = True
-            else: #unfreeze complete network
-                for parameter in tree._net.parameters():
-                    parameter.requires_grad = True
+            for parameter in params_to_freeze:
+                parameter.requires_grad = True
 

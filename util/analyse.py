@@ -24,7 +24,7 @@ def get_avg_path_length(tree: ProtoTree, info: dict, log: Log):
 
 def log_learning_rates(optimizer, args: argparse.Namespace, log: Log):
     log.log_message("Learning rate net: "+str(optimizer.param_groups[0]['lr']))
-    if 'densenet121' in args.net or 'resnet50' in args.net:
+    if 'resnet50_inat' in args.net:
         log.log_message("Learning rate block: "+str(optimizer.param_groups[1]['lr']))
         log.log_message("Learning rate net 1x1 conv: "+str(optimizer.param_groups[2]['lr']))
     else:

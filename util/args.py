@@ -98,7 +98,7 @@ def get_args() -> argparse.Namespace:
                         help='The directory containing a state dict (checkpoint) with a pretrained prototree. Note that training further from a checkpoint does not seem to work correctly. Evaluating a trained prototree does work.')
     parser.add_argument('--freeze_epochs',
                         type=int,
-                        default = 30,
+                        default = 2,
                         help='Number of epochs where pretrained features_net will be frozen'
                         )
     parser.add_argument('--dir_for_saving_images',
@@ -207,7 +207,7 @@ def get_optimizer(tree, args: argparse.Namespace) -> torch.optim.Optimizer:
         if 'dist_params' in name:
             dist_params.append(param)
     # set up optimizer
-    if 'resnet50' in args.net: 
+    if 'resnet50_inat' in args.net or ('resnet50' in args.net and args.dataset=='CARS'):  #to reproduce experimental results
         # freeze resnet50 except last convolutional layer
         for name,param in tree._net.named_parameters():
             if 'layer4.2' not in name:
@@ -233,25 +233,11 @@ def get_optimizer(tree, args: argparse.Namespace) -> torch.optim.Optimizer:
             if args.disable_derivative_free_leaf_optim:
                 paramlist.append({"params": dist_params, "lr": args.lr_pi, "weight_decay_rate": 0})
     
-    elif args.net == 'densenet121':
-        # freeze densenet121 except last convolutional layer
+    else: #other network architectures
         for name,param in tree._net.named_parameters():
-            if 'denseblock4' not in name and 'norm5' not in name:
-                params_to_freeze.append(param)
-            else:
-                params_to_train.append(param)
-        
+            params_to_freeze.append(param)
         paramlist = [
-            {"params": params_to_freeze, "lr": args.lr_net, "weight_decay_rate": args.weight_decay},
-            {"params": params_to_train, "lr": args.lr_block, "weight_decay_rate": args.weight_decay}, 
-            {"params": tree._add_on.parameters(), "lr": args.lr_block, "weight_decay_rate": args.weight_decay},
-            {"params": tree.prototype_layer.parameters(), "lr": args.lr,"weight_decay_rate": 0}]
-        if args.disable_derivative_free_leaf_optim:
-            paramlist.append({"params": dist_params, "lr": args.lr_pi, "weight_decay_rate": 0})
-    
-    else:
-        paramlist = [
-            {"params": tree._net.parameters(), "lr": args.lr_net, "weight_decay_rate": args.weight_decay}, 
+            {"params": params_to_freeze, "lr": args.lr_net, "weight_decay_rate": args.weight_decay}, 
             {"params": tree._add_on.parameters(), "lr": args.lr_block, "weight_decay_rate": args.weight_decay},
             {"params": tree.prototype_layer.parameters(), "lr": args.lr,"weight_decay_rate": 0}]
         if args.disable_derivative_free_leaf_optim:
